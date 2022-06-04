@@ -1,3 +1,8 @@
+function validatePassword(password) {
+    return password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/);
+}
+
+
 const registerMethods = {
     removeFormElement: () => {
         const registerForm = document.getElementById('register-form');
@@ -15,9 +20,10 @@ const registerMethods = {
 
         registerForm.innerHTML = `
         <form id="register-form">
-            <input type="text" name="username" placeholder="Потребителско име" />
-            <input type="password" name="password" placeholder="Парола"/>
-            <input type="email" id="email" placeholder="Email"/>
+            <input type="text" name="username" placeholder="Потребителско име" required/>
+            <input type="password" name="password" placeholder="Парола" required/>
+            <input type="password" name="matchPassword" placeholder="Въведете повторно парола" required/>
+            <input type="email" id="email" placeholder="Email" required/>
             <input type="submit" value="Регистрирай се!">
         </form>`;
 
@@ -59,8 +65,21 @@ const registerMethods = {
     submitForm: event => {
 
         event.preventDefault();
+
+        registerMethods.clearErrorMessages();
+        registerMethods.clearMessages();
     
         const form = event.target;
+
+        if (!validatePassword(form.password.value)) {
+            registerMethods.displayErrorMessage("Паролата трябва да е поне 8 символа, да съдържа поне 1 цифра, поне една главна буква. Трябва да е на латиница");
+            return;
+        }
+
+        if (form.password.value !== form.matchPassword.value) {
+            registerMethods.displayErrorMessage("Двете пароли не са еднакви!");
+            return;
+        }
     
         const body = {
             'username': form.username.value,
@@ -77,9 +96,6 @@ const registerMethods = {
                 return response.json();
             })
             .then(result => {
-                registerMethods.clearErrorMessages();
-                registerMethods.clearMessages();
-                console.log(result);
                 if (result.status) {
                     console.log('we also in')
                     registerMethods.displayMessage(result.message);
