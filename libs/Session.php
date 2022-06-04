@@ -18,8 +18,10 @@ class Session {
     }
 
     public static function logUser(string $username, string $password, PDO $connection): bool {
-        $statement = $connection->prepare('SELECT * FROM users WHERE username=:username AND password=:password');
-        $statement->execute(array("username"=> $username, "password" => $password));
+        $statement = $connection->prepare('SELECT * FROM users WHERE username=:username AND h_password=:h_password');
+
+        $hashed_password = sha1($password);
+        $statement->execute(array("username"=> $username, "h_password" => $hashed_password));
 
         $result = $statement->fetchAll();
 

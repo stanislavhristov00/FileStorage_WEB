@@ -21,9 +21,23 @@ header#top-bar {
     border: solid 2px #ae3111;
 }
 
+#register-form {
+    position: absolute;
+    top: 100px;
+    left: 300px;
+    background-color: antiquewhite;
+    padding: 20px;
+    border-radius: 10px;
+    border: solid 2px #ae3111;
+}
+
 .error-message {
     background-color: #ee3b0f;
     color: white;
+}
+
+.message {
+    color: black;
 }
 
 #not-logged-buttons, #logged-buttons {

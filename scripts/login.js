@@ -21,6 +21,7 @@ const loginMethods = {
     displayForm: () => {
 
         loginMethods.removeFormElement();
+        registerMethods.removeFormElement();
     
         const loginFormElement = document.createElement('div');
         loginFormElement.innerHTML = `
@@ -108,7 +109,6 @@ loginMethods.checkLoginStatus()
         if (loginStatus.logged) {
             document.getElementById('logged-buttons').setAttribute('style', "display: block");
             document.getElementById('username-greeting').innerText = loginStatus.session.user_name;
-            pageDisplayMethods.loadCourses();
         } else { // not logged
             document.getElementById('not-logged-buttons').setAttribute('style', "display: block");
         }
