@@ -29,9 +29,7 @@ class Session {
             return false;
         }
 
-        $userId = 5;
-
-        $_SESSION['user_id'] = $userId;
+        $_SESSION['user_id'] = uniqid();
         $_SESSION['user_name'] = $username;
 
         return true;

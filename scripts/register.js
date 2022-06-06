@@ -77,7 +77,7 @@ const registerMethods = {
         }
 
         if (form.password.value !== form.matchPassword.value) {
-            registerMethods.displayErrorMessage("Двете пароли не са еднакви!");
+            registerMethods.displayErrorMessage("Двете пароли не са еднакви ");
             return;
         }
     
