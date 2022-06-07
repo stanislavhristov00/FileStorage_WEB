@@ -52,12 +52,15 @@ header#top-bar {
 }
 
 .error-message {
+    top: 200px;
+    left: 300px;
     background-color: #ee3b0f;
     color: white;
 }
 
-.message {
-    color: black;
+.success-message {
+    color: green;
+    background-color: azure;
 }
 
 #not-logged-buttons, #logged-buttons {

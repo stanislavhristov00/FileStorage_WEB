@@ -9,7 +9,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST': {
         session_start();
 
-        $json_result = array();
         $user_folder = "../files/".$_SESSION['user_name'];
 
         if (!file_exists($user_folder)) {
@@ -17,10 +16,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         }
 
         if (!isset($_FILES['file'])) {
-            $json_result['status'] = false;
-            $json_result['message'] = "Няма качен файл";
-
-            exit(json_encode($json_result));
+            header("Location: ../index.html?status=failed");
+            exit();
         }
 
         $file_name = $_FILES['file']['name'];
@@ -29,12 +26,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $file_type= $_FILES['file']['type'];
         $file_ext = strtolower(end(explode('.',$_FILES['file']['name'])));
 
+        if ($file_name == "") {
+            header("Location: ../index.html?status=empty");
+            exit();
+        }
+
+        $new_location = "$user_folder/$file_name";
+        if (file_exists($new_location)) {
+            header("Location: ../index.html?status=alreadyExists");
+            exit();
+        }
+
         move_uploaded_file($file_tmp, "$user_folder/$file_name");
-
-        $json_result['status'] = true;
-        $json_result['message'] = "Качихте ".$file_name." успешно!";
-
-        exit(json_encode($json_result));
+        header("Location: ../index.html?status=success");
     }
-    
 }

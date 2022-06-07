@@ -47,15 +47,15 @@ const registerMethods = {
             })
     }, 
 
-    displayMessage: message => {
+    displaySuccessMessage: message => {
         const messageElement = document.createElement('div');
         messageElement.innerText = message;
-        messageElement.setAttribute("class", "message");
+        messageElement.setAttribute("class", "success-message");
 
         document.getElementById('register-form').appendChild(messageElement);
     },
 
-    clearMessages: () => {
+    clearSuccessMessages: () => {
         document.querySelectorAll('#register-form .message')
             .forEach(message => {
                 message.parentElement.removeChild(message);
@@ -67,7 +67,7 @@ const registerMethods = {
         event.preventDefault();
 
         registerMethods.clearErrorMessages();
-        registerMethods.clearMessages();
+        registerMethods.clearSuccessMessages();
     
         const form = event.target;
 
@@ -98,8 +98,8 @@ const registerMethods = {
             .then(result => {
                 if (result.status) {
                     console.log('we also in')
-                    registerMethods.displayMessage(result.message);
-                    registerMethods.displayMessage("Цъкнете 'Влез', за да влезете в профила си.");
+                    registerMethods.displaySuccessMessage(result.message);
+                    registerMethods.displaySuccessMessage("Цъкнете 'Влез', за да влезете в профила си.");
                 } else {
                     registerMethods.displayErrorMessage(result.message);
                 }
@@ -107,7 +107,7 @@ const registerMethods = {
             .catch((err) => {
                 console.log(err.stack);
                 registerMethods.clearErrorMessages();
-                registerMethods.clearMessages();
+                registerMethods.clearSuccessMessages();
                 registerMethods.displayErrorMessage("Неуспешен опит за регистрация. Опитайте отново след малко.");
             });
     }
