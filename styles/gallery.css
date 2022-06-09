@@ -1,0 +1,16 @@
+body {
+    width: 1000px;
+    margin: 10px auto;
+    font-family: Arial;
+}
+
+header#top-bar {
+    position: fixed;
+    width: 1000px;
+    height: 40px;
+    top: 0;
+}
+
+#logged-buttons {
+    display: none;
+}

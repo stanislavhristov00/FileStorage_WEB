@@ -99,8 +99,15 @@ const logout = () => {
     });
 }
 
-document.getElementById('login').addEventListener('click', loginMethods.displayForm);
-document.getElementById('logout').addEventListener('click', logout);
+const loginButton = document.getElementById('login');
+const logoutButton = document.getElementById('logout')
+
+if (loginButton) {
+    loginButton.addEventListener('click', loginMethods.displayForm);
+}
+if (logoutButton) {
+    logoutButton.addEventListener('click', logout);
+}
 
 console.log(loginMethods.checkLoginStatus())
 
@@ -110,6 +117,9 @@ loginMethods.checkLoginStatus()
             document.getElementById('logged-buttons').setAttribute('style', "display: block");
             document.getElementById('username-greeting').innerText = loginStatus.session.user_name;
         } else { // not logged
-            document.getElementById('not-logged-buttons').setAttribute('style', "display: block");
+            const notLoggedButtons = document.getElementById('not-logged-buttons');
+            if (notLoggedButtons) {
+                notLoggedButtons.setAttribute('style', "display: block");
+            }
         }
     });
