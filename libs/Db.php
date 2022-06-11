@@ -6,10 +6,12 @@ class Db {
 
     public function __construct() {
 
-        $dbhost = "localhost";
-        $dbName = "web_coursework";
-        $userName = "root";
-        $userPassword = "";
+        $config = parse_ini_file('config.ini', true);
+
+        $dbhost = $config['db']['host'];
+        $dbName = $config['db']['database'];
+        $userName = $config['db']['username'];
+        $userPassword = $config['db']['password'];
 
         $this->connection = new PDO("mysql:host=$dbhost;dbname=$dbName", $userName, $userPassword,
             [

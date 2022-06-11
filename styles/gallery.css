@@ -1,15 +1,22 @@
 body {
     width: 1000px;
-    margin: 10px auto;
     font-family: Arial;
     background-color: antiquewhite;
 }
 
+a {
+    text-decoration: none;
+    color: rgb(204, 0, 0);
+}
+
 header#top-bar {
     position: fixed;
-    width: 1000px;
+    width: 100%;
     height: 40px;
+    left: 0;
     top: 0;
+    background-color: rgb(204, 0, 0);
+    font-size: 15px;
 }
 
 #logged-buttons {
@@ -25,18 +32,21 @@ header#top-bar {
     grid-gap: 20px;
     overflow: auto;
     width: 100%;
-    border: 0.5px solid black;
-    border-radius: 1%;
+    border-radius: 10px;
+    border: solid 2px #ae3111;
+    margin-left: 50px;
     margin-bottom: 10px;
     padding: 10px;
 }
 
 .item-left {
-    background-color: blue;
+    font-weight: bold;
+    color:rgb(204, 0, 0);
 }
 
 .item-right {
-    background-color: red;
+    font-weight: bold;
+    color:rgb(204, 0, 0);
 }
 
 .item-right span {
@@ -59,12 +69,53 @@ header#top-bar {
     width: 60px;
 }
 
-header {
-    margin-top: 20px;
+#logout{
+    padding: 10px;
+    margin-top: 8px;
+    font-weight: bold;
+    color:rgb(204, 0, 0);
+    cursor: pointer;
+    background-color: antiquewhite;
+    position: relative;
+    top: 2px;
+}
+
+#logout:hover, #close-frame:hover {
+    color: antiquewhite;
+    background-color: rgb(204, 0, 0);
 }
 
 #username-greeting {
     margin-right: 10px;
+    
+}
+
+#logged-buttons {
+    font-weight: bold;
+    color: antiquewhite;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+#actual-frame {
+    background-color: white;
+}
+
+#close-frame {
+    padding-left: 5px;
+    padding-right: 10px;
+    margin-top: 8px;
+    font-weight: bold;
+    color: antiquewhite;
+    cursor: pointer;
+    background-color: rgb(204, 0, 0);
+    position: relative;
+    font-size: 25px;
+}
+
+#close-frame:hover {
+    background-color: antiquewhite;
+    color:rgb(204, 0, 0);
 }
 
 @media (min-width: 1050px) {

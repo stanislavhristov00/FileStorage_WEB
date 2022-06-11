@@ -1,6 +1,5 @@
 body {
     width: 1000px;
-    /* margin: 10px auto; */
     font-family: Arial;
     background-color: antiquewhite;
 }
@@ -50,8 +49,8 @@ header#top-bar {
 
 #upload-form {
     position: absolute;
-    top: 300px;
-    left: 300px;
+    top: 250px;
+    left: 432.5px;
     background-color: antiquewhite;
     padding: 20px;
     border-radius: 10px;
@@ -60,8 +59,8 @@ header#top-bar {
 
 #menu {
     position: absolute;
-    top: 100px;
-    left: 300px;
+    top: 150px;
+    left: 450px;
     background-color: antiquewhite;
     padding: 20px;
     border-radius: 10px;
@@ -92,14 +91,33 @@ header#top-bar {
     background: #eee;
 }
 
-#login {
+/* #login {
     margin-right: 10px;
+} */
+
+#login, #register, #logout {
+    padding: 10px;
+    font-weight: bold;
+    color:rgb(204, 0, 0);
+    cursor: pointer;
+    background-color: antiquewhite;
 }
 
-#login #register #logout {
-    padding-top: 50px;
+#login:hover, #register:hover, #logout:hover {
+    color: antiquewhite;
+    background-color: rgb(204, 0, 0);
+}
+
+#login {
+    margin-left: 5px;
 }
 
 #username-greeting {
     margin-right: 10px;
+}
+
+#logged-buttons {
+    font-weight: bold;
+    color: antiquewhite;
+    margin-left: 5px;
 }
