@@ -42,6 +42,22 @@ header#top-bar {
     margin-right: 50px;
 }
 
+#frame {
+    display: none;
+}
+
+.openpop {
+    cursor: pointer;
+}
+
+#frame {
+    margin-top: 50px;
+}
+
+#close-frame {
+    width: 60px;
+}
+
 @media (min-width: 1050px) {
     .row { grid-template-columns: 1fr 1fr; }
 }

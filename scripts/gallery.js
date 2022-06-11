@@ -8,16 +8,16 @@ function getExtension(name) {
     return ext;
 }
 
-function createRow(filename) {
+function createRow(filename, id) {
     parts = filename.split('/')
     baseName = parts[parts.length - 1];
 
     const row = document.createElement('div');
     row.setAttribute('class', 'row');
     row.innerHTML = `
-        <div class="item-left openpop"><span>${baseName}</span></div>
+        <div class="item-left openpop" id="openpop-div-${id}"><span>${baseName}</span></div>
         <div class="item-right">
-            <span class="openpop">Виж</span>
+            <span class="openpop" id="openpop-span-${id}">Виж</span>
             <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
             <span>Сподели</span>
         </div>
@@ -54,6 +54,14 @@ function createRow(filename) {
             })
         }
 
+        document.getElementById('close-frame').addEventListener('click', () => {
+            const frame = document.getElementById('frame');
+            frame.style.display = 'none';
+
+            const contentWrapper = document.getElementById('content-wrapper');
+            contentWrapper.style.display = 'block';
+        })
+
         fetch("../endpoints/files.php", {
             method: 'GET'
         }).then(response => {
@@ -63,12 +71,34 @@ function createRow(filename) {
             throw new Error();
         }).then(result => {
             const contentWrapper = document.getElementById('content-wrapper');
-
+            let id = 0;
             for(let file of result.files) {
                 console.log(`FILE: ${file}`);
                 console.log(`EXTENSION : ${getExtension(file)}`);
 
-                contentWrapper.appendChild(createRow(file));
+                contentWrapper.appendChild(createRow(file, id));
+                document.getElementById(`openpop-div-${id}`).addEventListener('click', (e) => {
+                    const contentWrapper = document.getElementById('content-wrapper');
+                    contentWrapper.style.display = 'none';
+
+                    const frame = document.getElementById('frame');
+                    frame.style.display = 'block';
+
+                    const iframe = document.getElementById('actual-frame');
+                    iframe.setAttribute('src', `${file.slice(3)}`)
+                })
+
+                document.getElementById(`openpop-span-${id}`).addEventListener('click', (e) => {
+                    const contentWrapper = document.getElementById('content-wrapper');
+                    contentWrapper.style.display = 'none';
+
+                    const frame = document.getElementById('frame');
+                    frame.style.display = 'block';
+
+                    const iframe = document.getElementById('actual-frame');
+                    iframe.setAttribute('src', `${file.slice(3)}`)
+                })
+                id++;
             }
         }).catch((e) => {
             console.log(e);
