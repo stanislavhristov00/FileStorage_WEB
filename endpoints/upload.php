@@ -9,6 +9,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
     case 'POST': {
         session_start();
 
+        if ($_SESSION["user_name"] == "" || !isset($_SESSION["user_name"])) {
+            exit(json_encode(array("error" => "You are not authenticated")));
+        }
+
         $user_folder = "../files/".$_SESSION['user_name'];
 
         if (!file_exists($user_folder)) {

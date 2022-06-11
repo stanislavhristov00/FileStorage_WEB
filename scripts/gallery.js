@@ -15,8 +15,12 @@ function createRow(filename) {
     const row = document.createElement('div');
     row.setAttribute('class', 'row');
     row.innerHTML = `
-        <div class="item-left"><span>${baseName}</span></div>
-        <div class="item-right"><span>Виж</span><span>Изтегли</span><span>Сподели</span></div>
+        <div class="item-left openpop"><span>${baseName}</span></div>
+        <div class="item-right">
+            <span class="openpop">Виж</span>
+            <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
+            <span>Сподели</span>
+        </div>
     `;
 
     return row;

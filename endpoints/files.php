@@ -6,6 +6,11 @@ Bootstrap::initApp();
 switch($_SERVER['REQUEST_METHOD']) {
     case 'GET': {
         session_start();
+
+        if ($_SESSION["user_name"] == "" || !isset($_SESSION["user_name"])) {
+            exit(json_encode(array("error" => "You are not authenticated")));
+        }
+        
         $user_folder = "../files/".$_SESSION['user_name'];
 
         $json_result = array();
