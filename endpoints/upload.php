@@ -39,5 +39,6 @@ switch ($_SERVER['REQUEST_METHOD']) {
 
         move_uploaded_file($file_tmp, "$user_folder/$file_name");
         header("Location: ../index.html?status=success");
+        exit();
     }
 }
