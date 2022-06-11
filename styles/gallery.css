@@ -2,6 +2,7 @@ body {
     width: 1000px;
     margin: 10px auto;
     font-family: Arial;
+    background-color: antiquewhite;
 }
 
 header#top-bar {
@@ -56,6 +57,14 @@ header#top-bar {
 
 #close-frame {
     width: 60px;
+}
+
+header {
+    margin-top: 20px;
+}
+
+#username-greeting {
+    margin-right: 10px;
 }
 
 @media (min-width: 1050px) {

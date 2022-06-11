@@ -77,7 +77,13 @@ const displayMenu = () => {
 loginMethods.checkLoginStatus()
     .then(loginStatus => {
         if (loginStatus.logged) {
+            const logo1 = document.getElementById('logo-1');
+            logo1.parentElement.removeChild(logo1);
+            const logo2 = document.getElementById('logo-2');
+            logo2.parentElement.removeChild(logo2);
+            
             displayMenu();
+
             (function(){
                 const result = getUploadStatus();
             
