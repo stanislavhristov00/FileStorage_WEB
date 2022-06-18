@@ -8,6 +8,11 @@ function getExtension(name) {
     return ext;
 }
 
+function getBaseFileName(fileName) {
+    const parts = fileName.split('/');
+    return parts[parts.length - 1];
+}
+
 function createRow(filename, id) {
     parts = filename.split('/')
     baseName = parts[parts.length - 1];
@@ -19,12 +24,55 @@ function createRow(filename, id) {
         <div class="item-right">
             <span class="openpop" id="openpop-span-${id}">Виж</span>
             <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
+            <span id="delete-${id}" class="openpop">Изтрий</span>
             <span>Сподели</span>
         </div>
     `;
 
     return row;
 }
+
+function deleteFile(fileName, event) {
+    const body = {
+        'file_name': fileName
+    }
+
+    fetch('../endpoints/delete.php', {
+        method: 'POST',
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+
+        throw new Error();
+    }).then(result => {
+        if (result.error) {
+            console.log("Something wrong happened!")
+            console.log(result.error);
+            return;
+        } else {
+            deleteRow(event);
+        }
+    }).catch(e => {
+        console.log(e);
+        return false;
+    })
+}
+
+function deleteRow(event) {
+    const span = event.target;
+    const divToDelete = span.parentElement.parentElement;
+
+    divToDelete.parentElement.removeChild(divToDelete);
+    window.location.href = window.location.href;
+}
+
+var make_handler = function (fileName) {
+  return function (event) {
+    deleteFile(fileName, event);
+  };
+};
 
 (function(){
     loginMethods.checkLoginStatus()
@@ -73,9 +121,6 @@ function createRow(filename, id) {
             const contentWrapper = document.getElementById('content-wrapper');
             let id = 0;
             for(let file of result.files) {
-                console.log(`FILE: ${file}`);
-                console.log(`EXTENSION : ${getExtension(file)}`);
-
                 contentWrapper.appendChild(createRow(file, id));
                 document.getElementById(`openpop-div-${id}`).addEventListener('click', (e) => {
                     const contentWrapper = document.getElementById('content-wrapper');
@@ -98,12 +143,12 @@ function createRow(filename, id) {
                     const iframe = document.getElementById('actual-frame');
                     iframe.setAttribute('src', `${file.slice(3)}`)
                 })
+
+                document.getElementById(`delete-${id}`).addEventListener('click', make_handler(getBaseFileName(file)));
                 id++;
             }
         }).catch((e) => {
             console.log(e);
         })
     });
-
-
 })();
