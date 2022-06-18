@@ -2,7 +2,7 @@
 
 class Db {
 
-    private $connection;
+    private PDO $connection;
 
     public function __construct() {
 

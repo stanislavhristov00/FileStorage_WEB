@@ -88,27 +88,35 @@ loginMethods.checkLoginStatus()
                 const result = getUploadStatus();
             
                 if (result != null) {
-                    switch(result) {
-                        case 'success':
-                        {
-                            uploadFormMethods.displaySuccess('Файлът беше добавен успешно.');
-                            return;
-                        }
-                        case 'alreadyExists':
-                        {
-                            uploadFormMethods.displayError('Този файл вече е качен.');
-                            return;
-                        }
-                        case 'empty':
-                        {
-                            uploadFormMethods.displayError('Трябва да изберете файл.');
-                            return;
-                        }
-                        case 'failed':
-                        {
-                            uploadFormMethods.displayError('Нещо се обърка, опитайте пак по-късно.');
-                            return;
-                        }
+                    if (result == 'success') {
+                        uploadFormMethods.displaySuccess('Файлът беше добавен успешно.');
+                        return;
+                    }
+
+                    if (result == 'alreadyExists') {
+                        uploadFormMethods.displayError('Този файл вече е качен.');
+                        return;
+                    }
+
+                    if (result == 'empty') {
+                        uploadFormMethods.displayError('Трябва да изберете файл.');
+                        return;
+                    }
+
+                    if (result == 'failed') {
+                        uploadFormMethods.displayError('Нещо се обърка, опитайте пак по-късно.');
+                        return;
+                    }
+
+                    if (result.startsWith('hash')) {
+                        const name = result.split('-')[1];
+                        uploadFormMethods.displayError(`Вече имате качен файл със същото съдържание на име ${name}`);
+                        return;
+                    }
+
+                    if (result == 'databaseErr') {
+                        uploadFormMethods.displayError(`Имаме проблем с базата данни. Моля свържете се с администратор :(`);
+                        return;
                     }
                 }
             })();
