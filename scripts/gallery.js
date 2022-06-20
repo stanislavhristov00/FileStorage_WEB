@@ -74,14 +74,34 @@ var make_handler = function (fileName) {
   };
 };
 
-function shareFile(fileName, event) {
-    console.log(fileName);
-}
+function shareFile(fileName) {
+    const body = {
+        "file_name": fileName
+    };
+    
+    fetch('./endpoints/share.php', {
+        method: "POST",
+        body: JSON.stringify(body)
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+
+        throw new Error();
+    }).then(result => {
+        if (result.error) {
+            console.log(error);
+        } else {
+            alert(`md5: ${result.md5}, user: ${result.id}`);
+        }
+    }).catch(e => {
+        console.log(e);
+    })
+}   
 
 var share_handler = function (fileName) {
     return function (event) {
       shareFile(fileName);
-      alert(window.location.href);
     };
   };
 

@@ -4,7 +4,9 @@ require_once '../libs/Bootstrap.php';
 require_once './utils/db_utils.php';
 
 Bootstrap::initApp();
-date_default_timezone_set('EEST');
+date_default_timezone_set('UTC');
+
+$MAX_TIME_FOR_SHARED_FILE = 60 * 60 * 2; // 2 hours.
 
 function now() {
     return date("Y-m-d H:i:s");
@@ -14,7 +16,54 @@ $db = new Db();
 
 switch ($_SERVER['REQUEST_METHOD']) {
     case 'GET': {
+        $requestBody = json_decode(file_get_contents("php://input"), true);
+        $connection = $db->getConnection();
 
+        // if (!isset($requestBody)) {
+        //     echo "<h1>ЕЕ няма как да стане тва</h1>";
+        //     exit();
+        // }
+        
+        $md5 = $requestBody['hash'];
+        $user_id = $requestBody['id'];
+
+        if ($md5 == '' || !isset($md5)) {
+           echo "<h1>ЕЕ няма как да стане тва</h1>";
+           exit();
+        }
+
+        if ($user_id == '' || !isset($user_id)) {
+            echo "<h1>ЕЕ няма как да стане тва</h1>";
+            exit();
+        }
+
+        $statement = $connection->prepare("SELECT time FROM shared WHERE user_id=:user_id");
+        $result = $statement->execute(array("user_id" => $user_id));
+
+        if (!$result) {
+            echo "<h1>Sorry pich, bazata bastisa</h1>";
+            exit();
+        }
+
+        $arr = $statement->fetchAll();
+
+        if (sizeof($arr) != 0) {
+            $curr_time = strtotime(now());
+            $timestamp = $arr[0]['time'];
+
+            if ($curr_time - $timestamp < $MAX_TIME_FOR_SHARED_FILE) {
+                echo "<h1>Imash dostup pich</h1>";
+                exit();
+            } else {
+                echo "<h1>Sorry bro</h1>";
+                exit();
+            }
+        } else {
+            echo "<h1>Nqma takuw file brato</h1>";
+            exit();
+        }
+
+        break;
     }
 
     case 'POST': {
@@ -45,6 +94,8 @@ switch ($_SERVER['REQUEST_METHOD']) {
         if ($fileName == '' || !isset($fileName)) {
             exit(json_encode(array("error" => "No file name passed")));
         }
+
+        $file = $user_folder.'/'.$fileName;
 
         if (!file_exists($file)) {
             exit(json_encode(array("error" => "Such a file doesn't exist")));
