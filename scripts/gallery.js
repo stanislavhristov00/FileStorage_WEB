@@ -25,7 +25,7 @@ function createRow(filename, id) {
             <span class="openpop" id="openpop-span-${id}">Виж</span>
             <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
             <span id="delete-${id}" class="openpop">Изтрий</span>
-            <span>Сподели</span>
+            <span id="share-${id}" class="openpop">Сподели</span>
         </div>
     `;
 
@@ -37,7 +37,7 @@ function deleteFile(fileName, event) {
         'file_name': fileName
     }
 
-    fetch('../endpoints/delete.php', {
+    fetch('./endpoints/delete.php', {
         method: 'POST',
         body: JSON.stringify(body)
     }).then(response => {
@@ -73,6 +73,17 @@ var make_handler = function (fileName) {
     deleteFile(fileName, event);
   };
 };
+
+function shareFile(fileName, event) {
+    console.log(fileName);
+}
+
+var share_handler = function (fileName) {
+    return function (event) {
+      shareFile(fileName);
+      alert(window.location.href);
+    };
+  };
 
 (function(){
     loginMethods.checkLoginStatus()
@@ -110,7 +121,7 @@ var make_handler = function (fileName) {
             contentWrapper.style.display = 'block';
         })
 
-        fetch("../endpoints/files.php", {
+        fetch("./endpoints/files.php", {
             method: 'GET'
         }).then(response => {
             if(response.ok) {
@@ -145,6 +156,8 @@ var make_handler = function (fileName) {
                 })
 
                 document.getElementById(`delete-${id}`).addEventListener('click', make_handler(getBaseFileName(file)));
+
+                document.getElementById(`share-${id}`).addEventListener('click', share_handler(getBaseFileName(file)));
                 id++;
             }
         }).catch((e) => {

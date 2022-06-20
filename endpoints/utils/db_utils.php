@@ -1,5 +1,7 @@
 <?php
 
+use LDAP\Result;
+
 function getUser(string $username, PDO $connection): int {
     $statement = $connection->prepare('SELECT id FROM users WHERE username=:username');
     $status = $statement->execute(array("username" => $username));
@@ -48,4 +50,21 @@ function deleteFile(string $md5, int $user, PDO $connection): bool {
     }
 
     return true;
+}
+
+function getFileByHash(string $md5, int $user_id, PDO $connection): int {
+    $statement = $connection->prepare("SELECT id FROM files WHERE hash=:hash AND user=:user");
+    $result = $statement->execute(array("hash" => $md5, "user" => $user_id));
+
+    if (!$result) {
+        return -1;
+    }
+
+    $arr = $statement->fetchAll();
+
+    if (sizeof($arr) == 0) {
+        return -2;
+    }
+
+    return $arr[0]['id'];
 }
