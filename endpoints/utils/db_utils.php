@@ -13,6 +13,17 @@ function getUser(string $username, PDO $connection): int {
     return $statement->fetchAll()[0]['id'];
 }
 
+function getUsernameFromId(int $id, PDO $connection): string {
+    $statement = $connection->prepare('SELECT username FROM users WHERE id=:id');
+    $status = $statement->execute(array("id" => $id));
+
+    if (!$status) {
+        return "";
+    }
+
+    return $statement->fetchAll()[0]['username'];
+}
+
 function checkIfFileExists(string $md5, int $user, PDO $connection): string {
     $statement = $connection->prepare('SELECT name FROM files WHERE hash=:hash AND user=:user');
     $status = $statement->execute(array("hash" => $md5, "user" => $user));
@@ -67,4 +78,21 @@ function getFileByHash(string $md5, int $user_id, PDO $connection): int {
     }
 
     return $arr[0]['id'];
+}
+
+function getFileById(int $id, int $user_id, PDO $connection): array {
+    $statement = $connection->prepare("SELECT * FROM files WHERE id=:id AND user=:user");
+    $result = $statement->execute(array("id" => $id, "user" => $user_id));
+
+    if (!$result) {
+        return array();
+    }
+
+    $arr = $statement->fetchAll();
+
+    if (sizeof($arr) == 0) {
+        return array();
+    }
+
+    return $arr[0];
 }

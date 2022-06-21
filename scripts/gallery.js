@@ -92,7 +92,11 @@ function shareFile(fileName) {
         if (result.error) {
             console.log(error);
         } else {
-            alert(`md5: ${result.md5}, user: ${result.id}`);
+            const url = window.location.href;
+            const lastIndex = url.lastIndexOf('/');
+
+            const newUrl = `${url.slice(0, lastIndex)}/endpoints/share.php?hash=${result.md5}&id=${result.id}`;
+            alert(newUrl);
         }
     }).catch(e => {
         console.log(e);
