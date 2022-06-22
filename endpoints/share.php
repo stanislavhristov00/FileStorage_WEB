@@ -53,6 +53,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 
                 $file_name = $file['name'];
                 $user_name = getUsernameFromId($user_id, $connection);
+
                 $root = $_SERVER["DOCUMENT_ROOT"];
                 
                 $file_size = filesize("$root/files/$user_name/$file_name");
@@ -65,12 +66,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         </head>
                         <body>
                             <div>
-                                <h1>NAME: $file_name</h1>
-                                <h1>File size: ${file_size}B<h1>
-                                <span class=\"openpop\" id=\"openpop-span\">Виж</span>
-                                <span><a href=\"download.php?file_name=${file_name}\" target=\"_blank\">Изтегли</a></span>
-                                <span id=\"delete\" class=\"openpop\">Изтрий</span>
-                                <span id=\"share\" class=\"openpop\">Сподели</span>
+                                <h1 id=\"name\">File name: $file_name</h1>
+                                <h1 id=\"file_size\">File size: ${file_size}B<h1>
+                                <h1>Shared by: ${user_name}</h1>
+                                <span><a href=\"/./endpoints/share_download.php?hash=${md5}&id=${user_id}\" target=\"_blank\">Изтегли</a></span>
                             </div>
                         </body>
                     </html>
