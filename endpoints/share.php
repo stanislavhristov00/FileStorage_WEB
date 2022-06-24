@@ -66,7 +66,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
                         </head>
                         <body>
                             <div>
-                                <h1 id=\"name\">File name: $file_name</h1>
+                                <h1 id=\"name\">File name: ${file_name}</h1>
                                 <h1 id=\"file_size\">File size: ${file_size}B<h1>
                                 <h1>Shared by: ${user_name}</h1>
                                 <span><a href=\"/./endpoints/share_download.php?hash=${md5}&id=${user_id}\" target=\"_blank\">Изтегли</a></span>

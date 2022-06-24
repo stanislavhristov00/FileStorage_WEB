@@ -137,6 +137,14 @@ var share_handler = function (fileName) {
             })
         }
 
+        const backButton = document.getElementById('back');
+
+        if (backButton) {
+            backButton.addEventListener('click', () => {
+                location.href = './index.html';
+            })
+        }
+
         document.getElementById('close-frame').addEventListener('click', () => {
             const frame = document.getElementById('frame');
             frame.style.display = 'none';

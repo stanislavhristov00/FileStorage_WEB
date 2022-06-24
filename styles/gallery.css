@@ -53,16 +53,9 @@ header#top-bar {
     margin-right: 50px;
 }
 
-#frame {
-    display: none;
-}
 
 .openpop {
     cursor: pointer;
-}
-
-#frame {
-    margin-top: 50px;
 }
 
 #close-frame {
@@ -85,6 +78,22 @@ header#top-bar {
     background-color: rgb(204, 0, 0);
 }
 
+#back {
+    padding: 10px;
+    margin-top: 8px;
+    font-weight: bold;
+    color:rgb(204, 0, 0);
+    cursor: pointer;
+    background-color: antiquewhite;
+    position: relative;
+    top: 2px;
+}
+
+#back:hover {
+    color: antiquewhite;
+    background-color: rgb(204,0,0);
+}
+
 #username-greeting {
     margin-right: 10px;
     
@@ -97,8 +106,33 @@ header#top-bar {
     margin-left: 5px;
 }
 
+#frame {
+    margin-top: 50px;
+    position: fixed;
+    width: 1280px;
+    height: 720px;
+    padding: 0;
+    overflow: hidden;
+    display: none;
+}
+
 #actual-frame {
-    background-color: white;
+    background-color: transparent;
+    width: 2000px;
+    height: 786px;
+    border: 0;
+
+    -ms-transform: scale(0.60);
+    -moz-transform: scale(0.60);
+    -o-transform: scale(0.60);
+    -webkit-transform: scale(0.60);
+    transform: scale(0.60);
+
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
 }
 
 #close-frame {
