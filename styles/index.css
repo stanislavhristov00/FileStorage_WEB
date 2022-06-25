@@ -49,18 +49,22 @@ header#top-bar {
 
 #upload-form {
     position: absolute;
-    top: 250px;
-    left: 432.5px;
+    top: 50%;
+    left: 37.5%;
     background-color: antiquewhite;
     padding: 20px;
     border-radius: 10px;
     border: solid 2px #ae3111;
 }
 
+a, a:hover {
+    text-decoration: none;
+}
+
 #menu {
     position: absolute;
-    top: 150px;
-    left: 450px;
+    top: 25%;
+    left: 32.5%;
     background-color: antiquewhite;
     padding: 20px;
     border-radius: 10px;
@@ -68,13 +72,15 @@ header#top-bar {
 }
 
 .error-message {
-    top: 200px;
-    left: 300px;
+    margin-top:10px;
+    text-align: center;
     background-color: #ee3b0f;
     color: white;
 }
 
 .success-message {
+    margin-top: 10px;
+    text-align: center;
     color: green;
     background-color: azure;
 }
@@ -91,10 +97,6 @@ header#top-bar {
     background: #eee;
 }
 
-/* #login {
-    margin-right: 10px;
-} */
-
 #login, #register, #logout {
     padding: 10px;
     font-weight: bold;
@@ -106,6 +108,22 @@ header#top-bar {
 #login:hover, #register:hover, #logout:hover {
     color: antiquewhite;
     background-color: rgb(204, 0, 0);
+}
+
+#submitFile, #gallery {
+    padding: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: antiquewhite;
+    cursor: pointer;
+    background-color: rgb(204, 0, 0);
+}
+
+#submitFile:hover, #gallery:hover {
+    color: rgb(204, 0, 0);
+    background-color: antiquewhite;
 }
 
 #login {

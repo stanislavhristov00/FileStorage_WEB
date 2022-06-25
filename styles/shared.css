@@ -1,6 +1,83 @@
 body {
-    width: 1000px;
     font-family: Arial;
     background-color: antiquewhite;
     color: rgb(204, 0, 0);
+}
+
+#text-spans {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: table;
+    width: 100%;
+}
+
+.text {
+    font-weight: 600;
+    border: 2px solid rgb(204, 0, 0);
+    border-left: 0;
+    border-right: 0;
+    padding: 5px;
+    display: table-cell;
+}
+
+#buttons {
+    margin-top: 40px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color:rgb(204, 0, 0);
+    margin-right: 50px;
+}
+
+#download {
+    padding: 10px;
+    font-weight: bold;
+    color: antiquewhite;
+    cursor: pointer;
+    background-color: rgb(204, 0, 0);
+}
+
+#show {
+    padding: 10px;
+    font-weight: bold;
+    color: antiquewhite;
+    cursor: pointer;
+    background-color: rgb(204, 0, 0);
+}
+
+#download:hover, #show:hover {
+    color: rgb(204, 0, 0);
+    background-color: antiquewhite;
+}
+
+#frame {
+    margin-top: 50px;
+    margin-left: 70px;
+    position: fixed;
+    width: 1280px;
+    height: 720px;
+    padding: 0;
+    overflow: hidden;
+    display: none;
+}
+
+#actual-frame {
+    background-color: transparent;
+    width: 2000px;
+    height: 786px;
+    border: 0;
+
+    -ms-transform: scale(0.60);
+    -moz-transform: scale(0.60);
+    -o-transform: scale(0.60);
+    -webkit-transform: scale(0.60);
+    transform: scale(0.60);
+
+    -ms-transform-origin: 0 0;
+    -moz-transform-origin: 0 0;
+    -o-transform-origin: 0 0;
+    -webkit-transform-origin: 0 0;
+    transform-origin: 0 0;
 }

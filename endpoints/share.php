@@ -12,6 +12,44 @@ function now() {
     return date("Y-m-d H:i:s");
 }
 
+function getFileType(string $fileName): string {
+    $res = explode(".", $fileName);
+    if (sizeof($res) == 1) {
+        return "File";
+    }
+
+    $ext = $res[sizeof($res) - 1];
+
+    if ($ext == "png" || $ext == "jpg" || $ext == "jpeg" || $ext == "gif" ||
+        $ext == "jif" || $ext == "svg" || $ext == "bmp") {
+            return "Image";
+        }
+
+    if ($ext == "pdf") {
+        return "PDF";
+    }
+
+    if ($ext == "docx" || $ext == "docm" || $ext == "dot" || $ext == "dotx") {
+        return "Word File";
+    }
+
+    if ($ext == "xlsx" || $ext == "xlsm" || $ext == "xslb" || $ext == "xltx") {
+        return "Excel File";
+    }
+
+    if ($ext == "pptx" || $ext == "pptm" || $ext == "ppt") {
+        return "PowerPoint File";
+    }
+
+    if ($ext == "json" || $ext == "JSON") {
+        return "JSON";
+    }
+
+    if ($ext == "txt") {
+        return "Text File";
+    }
+}
+
 $db = new Db();
 
 switch ($_SERVER['REQUEST_METHOD']) {
@@ -19,7 +57,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $connection = $db->getConnection();
 
         if (!isset($_GET['hash']) || !isset($_GET['id'])) {
-            echo "<h1>Трябва и двата</h1>";
+            echo "
+            <html>
+                <head>
+                    <link rel=\"stylesheet\" href=\"/./styles/shared.css\"/>
+                    <script src=\"/./scripts/share.js\" defer></script>
+                    <title>uCloud</title>
+                </head>
+                <body>
+                    <h1>Невалиден линк :(</h1>
+                </body>
+            </html>";
             exit();
         }
         
@@ -29,7 +77,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $file_id = getFileByHash($md5, $user_id, $connection);
 
         if ($file_id == -2) {
-            echo "<h1>Няма такъв файл</h1>";
+            echo "
+            <html>
+                <head>
+                    <link rel=\"stylesheet\" href=\"/./styles/shared.css\"/>
+                    <script src=\"/./scripts/share.js\" defer></script>
+                    <title>uCloud</title>
+                </head>
+                <body>
+                    <h1>Няма такъв файл.</h1>
+                </body>
+            </html>";
             exit();
         }
 
@@ -37,7 +95,17 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $result = $statement->execute(array("file_id" => $file_id, "user_id" => $user_id));
 
         if (!$result) {
-            echo "<h1>Sorry pich, bazata bastisa</h1>";
+            echo "
+            <html>
+                <head>
+                    <link rel=\"stylesheet\" href=\"/./styles/shared.css\"/>
+                    <script src=\"/./scripts/share.js\" defer></script>
+                    <title>uCloud</title>
+                </head>
+                <body>
+                    <h1>Възникна проблем с базата данни. Свържете се с администратор.</h1>
+                </body>
+            </html>";
             exit();
         }
 
@@ -55,32 +123,64 @@ switch ($_SERVER['REQUEST_METHOD']) {
                 $user_name = getUsernameFromId($user_id, $connection);
 
                 $root = $_SERVER["DOCUMENT_ROOT"];
+                $path = "$root/files/$user_name/$file_name";
                 
-                $file_size = filesize("$root/files/$user_name/$file_name");
+                $file_size = filesize($path);
+                $type = getFileType($file_name);
 
                 echo "
                     <html>
                         <head>
                             <link rel=\"stylesheet\" href=\"/./styles/shared.css\"/>
                             <script src=\"/./scripts/share.js\" defer></script>
+                            <title>uCloud</title>
                         </head>
                         <body>
                             <div>
-                                <h1 id=\"name\">File name: ${file_name}</h1>
-                                <h1 id=\"file_size\">File size: ${file_size}B<h1>
-                                <h1>Shared by: ${user_name}</h1>
-                                <span><a href=\"/./endpoints/share_download.php?hash=${md5}&id=${user_id}\" target=\"_blank\">Изтегли</a></span>
+                                <div id=\"text-spans\">
+                                    <span class=\"text\"id=\"name\">File name: ${file_name}</span>
+                                    <span class=\"text\"id=\"file_size\">File size: ${file_size}B</span>
+                                    <span class=\"text\">File Type: ${type}</span>
+                                    <span class=\"text\">Shared by: ${user_name}</span>
+                                </div>
+                                <div id=\"buttons\">
+                                    <a href=\"/./endpoints/share_download.php?hash=${md5}&id=${user_id}\" target=\"_blank\"><span id=\"download\">Изтегли</span></a>
+                                    <span id=\"show\">Покажи</span>
+                                </div>
+                                <div id=\"frame\">
+                                    <iframe id=\"actual-frame\" src=\"/./files/$user_name/$file_name\"></iframe>
+                                </div>
                             </div>
                         </body>
                     </html>
                 ";
                 exit();
             } else {
-                echo "<h1>Sorry bro</h1>";
+                echo "
+            <html>
+                <head>
+                    <link rel=\"stylesheet\" href=\"/./styles/shared.css\"/>
+                    <script src=\"/./scripts/share.js\" defer></script>
+                    <title>uCloud</title>
+                </head>
+                <body>
+                    <h1>Нямате достъп до този файл</h1>
+                </body>
+            </html>";
                 exit();
             }
         } else {
-            echo "<h1>Nqma takuw file brato</h1>";
+            echo "
+            <html>
+                <head>
+                    <link rel=\"stylesheet\" href=\"/./styles/shared.css\"/>
+                    <script src=\"/./scripts/share.js\" defer></script>
+                    <title>uCloud</title>
+                </head>
+                <body>
+                    <h1>Нямате достъп до този файл</h1>
+                </body>
+            </html>";
             exit();
         }
 

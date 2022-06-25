@@ -60,9 +60,9 @@ const displayMenu = () => {
     const menuElement = document.createElement('div');
     menuElement.setAttribute('id', 'menu');
     menuElement.innerHTML = `
-    <button id="submitFile">Качете файл</a>
+    <span id="submitFile">Качете файл</span>
     <a href="gallery.html" style="color: #333333;">
-        <button>Качени файлове</button>
+        <span id="gallery">Качени файлове</span>
     </a>
     `;
 
