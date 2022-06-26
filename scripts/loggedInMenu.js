@@ -4,7 +4,7 @@ uploadFormMethods = {
             const form = document.createElement('div')
             form.innerHTML = `
             <form action="./endpoints/upload.php" method="POST" enctype="multipart/form-data" id="upload-form">
-                <input type="file" name="file" />
+                <input type="file" name="file[]" multiple/>
                 <input type="submit" />
             </form>
             `;
@@ -89,12 +89,13 @@ loginMethods.checkLoginStatus()
             
                 if (result != null) {
                     if (result == 'success') {
-                        uploadFormMethods.displaySuccess('Файлът беше добавен успешно.');
+                        uploadFormMethods.displaySuccess('Успешно добавяне.');
                         return;
                     }
 
-                    if (result == 'alreadyExists') {
-                        uploadFormMethods.displayError('Този файл вече е качен.');
+                    if (result.startsWith('alreadyExists')) {
+                        const name = result.split('-')[1];
+                        uploadFormMethods.displayError(`${name} вече е качен.`);
                         return;
                     }
 

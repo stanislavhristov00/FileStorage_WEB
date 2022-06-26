@@ -8,6 +8,41 @@ function getExtension(name) {
     return ext;
 }
 
+function getFileType(name) {
+    ext = getExtension(name);
+
+    if (ext == "png" || ext == "jpg" || ext == "jpeg" || ext == "gif" ||
+        ext == "jif" || ext == "svg" || ext == "bmp" || ext == "jfif") {
+            return "image.png";
+    }
+
+    if (ext == "pdf") {
+        return "pdf.png";
+    }
+
+    if (ext == "docx" || ext == "docm" || ext == "dot" || ext == "dotx") {
+        return "word.png";
+    }
+
+    if (ext == "xlsx" || ext == "xlsm" || ext == "xslb" || ext == "xltx") {
+        return "excel.png";
+    }
+
+    if (ext == "pptx" || ext == "pptm" || ext == "ppt") {
+        return "powerpoint.png";
+    }
+
+    if (ext == "json" || ext == "JSON") {
+        return "json.jpg";
+    }
+
+    if (ext == "txt") {
+        return "txt.png";
+    }
+
+    return "file.jpg";
+}
+
 function getBaseFileName(fileName) {
     const parts = fileName.split('/');
     return parts[parts.length - 1];
@@ -19,8 +54,11 @@ function createRow(filename, id) {
 
     const row = document.createElement('div');
     row.setAttribute('class', 'row');
+    
+    const fileType = getFileType(baseName);
+
     row.innerHTML = `
-        <div class="item-left openpop" id="openpop-div-${id}"><span>${baseName}</span></div>
+        <div class="item-left openpop" id="openpop-div-${id}"><img src="img/${fileType}" width=30px height=30px></img><span>${baseName}</span></div>
         <div class="item-right">
             <span class="openpop" id="openpop-span-${id}">Виж</span>
             <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>

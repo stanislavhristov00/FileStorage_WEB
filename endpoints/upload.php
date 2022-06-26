@@ -32,39 +32,40 @@ switch ($_SERVER['REQUEST_METHOD']) {
             exit();
         }
 
-        $file_name = $_FILES['file']['name'];
-        $file_size = $_FILES['file']['size'];
-        $file_tmp = $_FILES['file']['tmp_name'];
-        $file_type= $_FILES['file']['type'];
-        // $file_ext = strtolower(end(explode('.',$_FILES['file']['name'])));
+        for ($i = 0; $i < count($_FILES['file']['name']); $i++) {
+            $file_name = $_FILES['file']['name'][$i];
+            $file_size = $_FILES['file']['size'][$i];
+            $file_tmp = $_FILES['file']['tmp_name'][$i];
+            $file_type= $_FILES['file']['type'][$i];
 
-        if ($file_name == "") {
-            header("Location: ../index.html?status=empty");
-            exit();
+            if ($file_name == "") {
+                header("Location: ../index.html?status=empty");
+                exit();
+            }
+
+            $new_location = "$user_folder/$file_name";
+            if (file_exists($new_location)) {
+                header("Location: ../index.html?status=alreadyExists-${file_name}");
+                exit();
+            }
+            
+            $md5 = md5_file($file_tmp);
+            $name = checkIfFileExists($md5, $user_id, $connection);
+            
+            if ($name != "") {
+                header("Location: ../index.html?status=hashExists-$name");
+                exit();
+            }
+            
+            if(addFile($md5, $user_id, $file_name, $connection)) {
+                move_uploaded_file($file_tmp, "$user_folder/$file_name");
+            } else {
+                header("Location: ../index.html?status=databaseErr");
+                exit();
+            }
         }
 
-        $new_location = "$user_folder/$file_name";
-        if (file_exists($new_location)) {
-            header("Location: ../index.html?status=alreadyExists");
-            exit();
-        }
-        
-        $md5 = md5_file($file_tmp);
-        $name = checkIfFileExists($md5, $user_id, $connection);
-        
-        if ($name != "") {
-            header("Location: ../index.html?status=hashExists-$name");
-            exit();
-        }
-
-        if(addFile($md5, $user_id, $file_name, $connection)) {
-            move_uploaded_file($file_tmp, "$user_folder/$file_name");
-            header("Location: ../index.html?status=success");
-            exit();
-        } else {
-            header("Location: ../index.html?status=databaseErr");
-            exit();
-        }
-
+        header("Location: ../index.html?status=success");
+        exit();
     }
 }

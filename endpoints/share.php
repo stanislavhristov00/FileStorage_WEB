@@ -21,7 +21,7 @@ function getFileType(string $fileName): string {
     $ext = $res[sizeof($res) - 1];
 
     if ($ext == "png" || $ext == "jpg" || $ext == "jpeg" || $ext == "gif" ||
-        $ext == "jif" || $ext == "svg" || $ext == "bmp") {
+        $ext == "jif" || $ext == "svg" || $ext == "bmp" || $ext == "jfif") {
             return "Image";
         }
 
@@ -48,6 +48,8 @@ function getFileType(string $fileName): string {
     if ($ext == "txt") {
         return "Text File";
     }
+
+    return "File";
 }
 
 $db = new Db();
