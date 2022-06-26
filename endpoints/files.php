@@ -24,7 +24,8 @@ switch($_SERVER['REQUEST_METHOD']) {
         $user_folder = $user_folder."/*";
 
         foreach(array_filter(glob($user_folder), 'is_file') as $file) {
-            array_push($all_files, $file);
+            $size = filesize($file);
+            array_push($all_files, array("file_name" => $file, "size" => $size));
         }
 
         $json_result['files'] = $all_files;

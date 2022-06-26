@@ -48,7 +48,7 @@ function getBaseFileName(fileName) {
     return parts[parts.length - 1];
 }
 
-function createRow(filename, id) {
+function createRow(filename, size, id) {
     parts = filename.split('/')
     baseName = parts[parts.length - 1];
 
@@ -64,6 +64,7 @@ function createRow(filename, id) {
             <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
             <span id="delete-${id}" class="openpop">Изтрий</span>
             <span id="share-${id}" class="openpop">Сподели</span>
+            <span>Размер: ${size}B</span>
         </div>
     `;
 
@@ -202,7 +203,7 @@ var share_handler = function (fileName) {
             const contentWrapper = document.getElementById('content-wrapper');
             let id = 0;
             for(let file of result.files) {
-                contentWrapper.appendChild(createRow(file, id));
+                contentWrapper.appendChild(createRow(file['file_name'], file['size'], id));
                 document.getElementById(`openpop-div-${id}`).addEventListener('click', (e) => {
                     const contentWrapper = document.getElementById('content-wrapper');
                     contentWrapper.style.display = 'none';
@@ -211,7 +212,7 @@ var share_handler = function (fileName) {
                     frame.style.display = 'block';
 
                     const iframe = document.getElementById('actual-frame');
-                    iframe.setAttribute('src', `${file.slice(3)}`)
+                    iframe.setAttribute('src', `${file['file_name'].slice(3)}`)
                 })
 
                 document.getElementById(`openpop-span-${id}`).addEventListener('click', (e) => {
@@ -222,12 +223,12 @@ var share_handler = function (fileName) {
                     frame.style.display = 'block';
 
                     const iframe = document.getElementById('actual-frame');
-                    iframe.setAttribute('src', `${file.slice(3)}`)
+                    iframe.setAttribute('src', `${file['file_name'].slice(3)}`)
                 })
 
-                document.getElementById(`delete-${id}`).addEventListener('click', make_handler(getBaseFileName(file)));
+                document.getElementById(`delete-${id}`).addEventListener('click', make_handler(getBaseFileName(file['file_name'])));
 
-                document.getElementById(`share-${id}`).addEventListener('click', share_handler(getBaseFileName(file)));
+                document.getElementById(`share-${id}`).addEventListener('click', share_handler(getBaseFileName(file['file_name'])));
                 id++;
             }
         }).catch((e) => {
