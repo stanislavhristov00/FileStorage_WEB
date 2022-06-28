@@ -52,6 +52,23 @@ function addFile(string $md5, int $user, string $name, PDO $connection): bool {
     return true;
 }
 
+function getFileByNameAndUser(string $file_name, int $user_id, PDO $connection): array {
+    $statement = $connection->prepare('SELECT * FROM files WHERE name=:name AND user=:user');
+    $status = $statement->execute(array("name" => $file_name, "user" => $user_id));
+
+    if (!$status) {
+        return array();
+    }
+
+    $res = $statement->fetchAll();
+
+    if (sizeof($res) == 0) {
+        return array();
+    }
+
+    return $res[0];
+}
+
 function deleteFile(string $md5, int $user, PDO $connection): bool {
     $statement = $connection->prepare("DELETE FROM files WHERE hash=:hash AND user=:user");
     $status = $statement->execute(array("hash" => $md5, "user" => $user));

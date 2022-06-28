@@ -51,7 +51,7 @@ switch($_SERVER['REQUEST_METHOD']) {
             $curr_time = strtotime(now());
             $timestamp = strtotime($arr[0]['time']);
 
-            if ($curr_time - $timestamp < $MAX_TIME_FOR_SHARED_FILE) {
+            if ($curr_time - $timestamp > $MAX_TIME_FOR_SHARED_FILE) {
                 exit(json_encode(array("error" => "This link has expired")));
             }
         }

@@ -43,6 +43,10 @@ function getFileType(name) {
     return "file.jpg";
 }
 
+function urlEncode(fileName) {
+    return fileName.replaceAll("+", "%2B");
+}
+
 function getBaseFileName(fileName) {
     const parts = fileName.split('/');
     return parts[parts.length - 1];
@@ -58,13 +62,20 @@ function createRow(filename, size, id) {
     const fileType = getFileType(baseName);
 
     row.innerHTML = `
-        <div class="item-left openpop" id="openpop-div-${id}"><img src="img/${fileType}" width=30px height=30px></img><span>${baseName}</span></div>
+        <div class="item-left openpop" id="openpop-div-${id}">
+            <img src="img/${fileType}" width=30px height=30px></img><span>${baseName}</span>
+        </div>
         <div class="item-right">
-            <span class="openpop" id="openpop-span-${id}">Виж</span>
-            <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
-            <span id="delete-${id}" class="openpop">Изтрий</span>
-            <span id="share-${id}" class="openpop">Сподели</span>
-            <span>Размер: ${size}B</span>
+            <div>
+                <span class="openpop" id="openpop-span-${id}">Виж</span>
+                <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
+                <span id="delete-${id}" class="openpop">Изтрий</span>
+                <span id="share-${id}" class="openpop">Сподели</span>
+                <span>Размер: ${size}B</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <span style="float: right;" class="openpop"><a href="endpoints/to_json.php?file_name=${urlEncode(baseName)}" target="_blank">to JSON</a></span>
+            </div>
         </div>
     `;
 
