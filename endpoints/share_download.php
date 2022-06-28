@@ -7,6 +7,7 @@ Bootstrap::initApp();
 $db = new Db();
 
 $MAX_TIME_FOR_SHARED_FILE = 60 * 60 * 2; // 2 hours.
+date_default_timezone_set('UTC');
 
 function now() {
     return date("Y-m-d H:i:s");
@@ -49,6 +50,7 @@ switch($_SERVER['REQUEST_METHOD']) {
             exit(json_encode(array("error" => "There is no such file in database")));
         } else {
             $curr_time = strtotime(now());
+            echo now();
             $timestamp = strtotime($arr[0]['time']);
 
             if ($curr_time - $timestamp > $MAX_TIME_FOR_SHARED_FILE) {
@@ -63,8 +65,7 @@ switch($_SERVER['REQUEST_METHOD']) {
         }
 
 
-        $user_folder = "/files/".$username;
-        $user_folder = $_SERVER["DOCUMENT_ROOT"].$user_folder;
+        $user_folder = "../files/".$username;
 
         $whole_file_name = $user_folder."/".$file['name'];
 

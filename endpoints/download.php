@@ -12,10 +12,10 @@ switch($_SERVER['REQUEST_METHOD']) {
             exit(json_encode(array("error" => "No file name passed")));
         }
 
-        $user_folder = "/files/".$_SESSION['user_name'];
-        $user_folder = $_SERVER["DOCUMENT_ROOT"].$user_folder;
+        $user_folder = "../files/".$_SESSION['user_name'];
 
         $whole_file_name = $user_folder."/".$_GET['file_name'];
+        echo $whole_file_name;
 
         if(file_exists($whole_file_name)) {
             $fileSize = filesize($whole_file_name);

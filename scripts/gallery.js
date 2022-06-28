@@ -68,7 +68,7 @@ function createRow(filename, size, id) {
         <div class="item-right">
             <div>
                 <span class="openpop" id="openpop-span-${id}">Виж</span>
-                <span><a href="endpoints/download.php?file_name=${baseName}" target="_blank">Изтегли</a></span>
+                <span><a href="endpoints/download.php?file_name=${urlEncode(baseName)}" target="_blank">Изтегли</a></span>
                 <span id="delete-${id}" class="openpop">Изтрий</span>
                 <span id="share-${id}" class="openpop">Сподели</span>
                 <span>Размер: ${size}B</span>
